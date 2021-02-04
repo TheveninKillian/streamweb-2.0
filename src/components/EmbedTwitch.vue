@@ -1,5 +1,5 @@
 <template>
-  <iframe src="https://player.twitch.tv/?channel=mastersnakou&parent=localhost" allowfullscreen="true"></iframe>
+  <iframe src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true"></iframe>
 
   <div class="twitch-details">
     <div class="twitch-details__logo">{{ twitch.logo }}</div>
