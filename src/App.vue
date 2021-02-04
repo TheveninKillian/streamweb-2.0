@@ -1,6 +1,11 @@
 <script>
+import EmbedTwitch from './components/EmbedTwitch'
+
 export default {
   name: 'App',
+  components: {
+    EmbedTwitch
+  },
   data(){
     return{
       isActive: false
@@ -43,6 +48,8 @@ export default {
     <div class="btn-social__youtube"><i class="lab la-youtube"></i></div>
     <div class="btn-social__instagram"><i class="lab la-instagram"></i></div>
   </nav>
+
+  <EmbedTwitch />
 </template>
 
 <style lang="scss">
