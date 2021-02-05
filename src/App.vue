@@ -8,8 +8,14 @@ export default {
   },
   data(){
     return{
-      isActive: false
+      isActive: false,
+      sizeWidth: 0
     }
+  },
+  mounted(){
+    this.screenSizeWidth()
+
+    window.addEventListener("resize", this.screenSizeWidth);
   },
   methods: {
     revealBtnSocial(){
@@ -18,15 +24,27 @@ export default {
       }else{
         this.isActive = false
       }
+    },
+
+    screenSizeWidth(){
+      this.sizeWidth =
+        window.innerWidth ||
+        document.documentElement.clientWidth ||
+        document.body.clientWidth;
+
+      // console.log(this.sizeWidth)
     }
+  },
+  beforeUnmount(){
+    window.removeEventListener("resize", this.screenSizeWidth);
   }
 }
 </script>
 
 <template>
-  <div :class="{overlay: isActive === true}" @click="revealBtnSocial"></div>
+  <div :class="{overlay: isActive === true}" @click="revealBtnSocial" v-if="sizeWidth < 1024"></div>
 
-  <video autoplay loop id="bgvid">
+  <video autoplay loop id="bgvid" v-if="sizeWidth >= 1024">
     <source src="./assets/video.webm" type="video/webm">
   </video>
 
@@ -36,12 +54,12 @@ export default {
       <h1>Mastersnakou</h1>
     </div>
 
-    <div class="header__btn" @click="revealBtnSocial">
+    <div class="header__btn" @click="revealBtnSocial" v-if="sizeWidth < 1024">
       <i class="las la-ellipsis-h"></i>
     </div>
   </header>
   
-  <nav class="btn-social" :class="{active: isActive}">
+  <nav class="btn-social" :class="{active: isActive}" v-if="sizeWidth < 1024">
     <div class="btn-social__twitch"><i class="lab la-twitch"></i></div>
     <div class="btn-social__twitter"><i class="lab la-twitter"></i></div>
     <div class="btn-social__facebook"><i class="lab la-facebook-f"></i></div>
@@ -75,8 +93,6 @@ export default {
     height: 100%;
 
     z-index: -1;
-
-    background-color: #0a090a;
   }
 
   .header{
