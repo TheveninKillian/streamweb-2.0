@@ -1,8 +1,8 @@
 <template>
   <!-- Ne pas oublier de changer le parent avant le deploiement : streamweb.netlify.app -->
-  <iframe src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true"></iframe>
+  <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true"></iframe>
 
-  <div class="twitch-details" v-if="live">
+  <div class="twitch-details" v-if="live" :class="{active: isActive}">
     <div class="twitch-details__logo">
       <img :src="twitch.gameImg" alt="logo-game">
     </div>
@@ -11,7 +11,14 @@
       <p>{{ twitch.title }}</p>
       <p>{{ twitch.game }}</p>
     </div>
+
+    <div class="hide-details" @click="revealDetails">
+      <i class="las la-chevron-down" v-if="!isActive"></i>
+      <i class="las la-chevron-up" v-if="isActive"></i>
+    </div>
   </div>
+
+  <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=streamweb.netlify.app&darkpopout"></iframe>
 </template>
 
 <script>
@@ -20,12 +27,14 @@
     data(){
       return{
         client_id: 'hjupgzhnkwgkiozsesy4fxby3337t5',
+        // Ne pas oublie de modifier redirect_uri avant le deploiement https://streamweb.netlify.app : http://localhost:8080
         redirect_uri: 'https://streamweb.netlify.app',
         scopes: ['user:read:email'],
         channel: 'mastersnakou',
         live: false,
         initLive: null,
         twitch_last_follow: null,
+        isActive: false,
         helpers: {
           encodeQueryString: (params) => {
             const queryString = new URLSearchParams();
@@ -160,8 +169,6 @@
                     let urlImg = dataGame.box_art_url
                     urlImg = urlImg.replace('{width}', '')
                     urlImg = urlImg.replace('{height}', '')
-
-                    console.log(urlImg)
                     
                     this.twitch.gameImg = urlImg
                   })
@@ -179,6 +186,15 @@
             this.callTwitch()
           }
         }, 30 * 1000)
+      }
+    },
+    methods:{
+      revealDetails(){
+        if(this.isActive === false){
+          this.isActive = true
+        }else{
+          this.isActive = false
+        }
       }
     },
     created(){
@@ -203,7 +219,9 @@
 </script>
 
 <style lang="scss">
-  iframe{
+  @import '../assets/variables';
+
+  .player{
     position: absolute;
     top: 75px;
     
@@ -215,18 +233,75 @@
 
   .twitch-details{
     position: absolute;
-    top: calc(32% + 75px);
+    top: calc((32% + 75px) - 85px);
+    transition: top .3s;
+    z-index: -1;
 
     display: flex;
-    padding: 15px 5px;
+    align-items: center;
+    padding: 0px 5px;
+    height: 85px;
     width: 100%;
 
-    background-color: #0a090a96;
+    background-color: $colorBlackTwo;
     color: #fff;
 
-    &__logo img{
-      width: 85px;
-      height: 100px;
+    &.active{
+      top: calc(32% + 75px);
     }
+
+    &__logo {
+      width: 60px;
+      height: 75px;
+
+      img{
+        width: 60px;
+        height: 75px;
+      }
+    }
+
+    &__title{
+      margin-left: 10px;
+
+      p:nth-child(1){
+        font-size: 13px;
+      }
+
+      p:nth-child(2){
+        margin-top: 5px;
+        color: $colorPrimary;
+        font-size: 12px;
+      }
+    }
+
+    .hide-details{
+      position: absolute;
+      bottom: -35px;
+      right: 15px;
+
+      height: 35px;
+      line-height: 36px;
+      width: 35px;
+
+      background-color: $colorBlackTwo;
+
+      text-align: center;
+
+      i{
+        color: $colorPrimary;
+        font-size: 20px;
+      }
+    }
+  }
+
+  .chat{
+    position: absolute;
+    top: calc(32% + 75px);
+    z-index: -2;
+
+    height: calc(100% - (75px + 32%));
+    width: 100%;
+
+    border: none;
   }
 </style>
