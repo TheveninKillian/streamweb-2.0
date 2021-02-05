@@ -20,7 +20,7 @@
     data(){
       return{
         client_id: 'hjupgzhnkwgkiozsesy4fxby3337t5',
-        redirect_uri: 'http://localhost:8080/',
+        redirect_uri: 'https://streamweb.netlify.app',
         scopes: ['user:read:email'],
         channel: 'mastersnakou',
         live: false,
