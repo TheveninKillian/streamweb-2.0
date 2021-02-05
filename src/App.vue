@@ -60,11 +60,25 @@ export default {
   </header>
   
   <nav class="btn-social" :class="{active: isActive}" v-if="sizeWidth < 1024">
-    <div class="btn-social__twitch"><i class="lab la-twitch"></i></div>
-    <div class="btn-social__twitter"><i class="lab la-twitter"></i></div>
-    <div class="btn-social__facebook"><i class="lab la-facebook-f"></i></div>
-    <div class="btn-social__youtube"><i class="lab la-youtube"></i></div>
-    <div class="btn-social__instagram"><i class="lab la-instagram"></i></div>
+    <div class="btn-social__twitch">
+      <a href="http://www.twitch.tv/mastersnakou"><i class="lab la-twitch"></i></a>
+    </div>
+
+    <div class="btn-social__twitter">
+      <a href="https://twitter.com/MasterSnakou"><i class="lab la-twitter"></i></a>
+    </div>
+
+    <div class="btn-social__facebook">
+      <a href="https://www.facebook.com/MasterSnakou"><i class="lab la-facebook-f"></i></a>
+    </div>
+
+    <div class="btn-social__youtube">
+      <a href="https://www.youtube.com/user/MasterSnakou"><i class="lab la-youtube"></i></a>
+    </div>
+
+    <div class="btn-social__instagram">
+      <a href="https://www.instagram.com/MasterSnakou"><i class="lab la-instagram"></i></a>
+    </div>
   </nav>
 
   <EmbedTwitch />
@@ -77,12 +91,12 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 1;
+    z-index: 5;
 
     height: 100%;
     width: 100%;
 
-    background: rgba(0, 0, 0, 0.4);
+    background: transparent;
   }
 
   video{
@@ -137,7 +151,7 @@ export default {
   .btn-social{
     position: absolute;
     top: -70px;
-    z-index: 2;
+    z-index: 6;
 
     display: flex;
     align-items: center;
