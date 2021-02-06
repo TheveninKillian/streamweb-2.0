@@ -131,8 +131,10 @@ export default {
 
       h1{
         position: relative;
-        top: -5px;
         color: $colorPrimary;
+
+        text-transform: uppercase;
+        font-style: italic;
       }
     }
 
