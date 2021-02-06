@@ -1,8 +1,8 @@
 <template>
   <!-- Ne pas oublier de changer le parent avant le deploiement : streamweb.netlify.app -->
-  <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true"></iframe>
+  <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true" :class="{active: activeChat}"></iframe>
 
-  <div class="twitch-details" v-if="live" :class="{active: isActive}">
+  <div class="twitch-details" v-if="live" :class="{active: activeDetails}">
     <div class="twitch-details__logo">
       <img :src="twitch.gameImg" alt="logo-game">
     </div>
@@ -13,12 +13,19 @@
     </div>
 
     <div class="hide-details" @click="revealDetails">
-      <i class="las la-chevron-down" v-if="!isActive"></i>
-      <i class="las la-chevron-up" v-if="isActive"></i>
+      <i class="las la-chevron-down" v-if="!activeDetails"></i>
+      <i class="las la-chevron-up" v-if="activeDetails"></i>
     </div>
   </div>
 
-  <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=streamweb.netlify.app&darkpopout"></iframe>
+  <div class="wrapper-chat" :class="{active: activeChat, resize: activeDetails}">
+    <div class="hide-chat" @click="revealChat">
+      <i class="las la-chevron-left" v-if="!activeChat"></i>
+      <i class="las la-chevron-right" v-if="activeChat"></i>
+    </div>
+
+    <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=streamweb.netlify.app&darkpopout"></iframe>
+  </div>
 </template>
 
 <script>
@@ -34,7 +41,8 @@
         live: false,
         initLive: null,
         twitch_last_follow: null,
-        isActive: false,
+        activeDetails: false,
+        activeChat: false,
         helpers: {
           encodeQueryString: (params) => {
             const queryString = new URLSearchParams();
@@ -185,15 +193,23 @@
           }else if (this.live === true){
             this.callTwitch()
           }
-        }, 30 * 1000)
+        }, 60 * 1000)
       }
     },
     methods:{
       revealDetails(){
-        if(this.isActive === false){
-          this.isActive = true
+        if(this.activeDetails === false){
+          this.activeDetails = true
         }else{
-          this.isActive = false
+          this.activeDetails = false
+        }
+      },
+
+      revealChat(){
+        if(this.activeChat === false){
+          this.activeChat = true
+        }else{
+          this.activeChat = false
         }
       }
     },
@@ -227,6 +243,7 @@
     
     height: 32%;
     width: 100%;
+    transition: width .3s;
 
     border: none;
   }
@@ -277,7 +294,7 @@
     .hide-details{
       position: absolute;
       bottom: -35px;
-      right: 15px;
+      right: 70px;
 
       height: 35px;
       line-height: 36px;
@@ -294,14 +311,79 @@
     }
   }
 
-  .chat{
+  .wrapper-chat{
     position: absolute;
-    top: calc(32% + 75px);
+    bottom: 0;
     z-index: -2;
 
     height: calc(100% - (75px + 32%));
     width: 100%;
+    transition: height .3s;
 
-    border: none;
+    &.resize{
+      height: calc(100% - (75px + 32% + 85px));
+    }
+
+    .hide-chat{
+      display: none;
+    }
+
+    .chat{
+      width: 100%;
+      height: 100%;
+
+      border: none;
+    }
+  }
+
+  @media screen and (max-width: 1024px) and (orientation: landscape){
+    .player{
+      top: 0;
+
+      height: 100%;
+
+      z-index: 10;
+
+      &.active{
+        width: calc(100% - 45%);
+      }
+    }
+
+    .wrapper-chat{
+      top: 0;
+      right: -45%;
+      z-index: 12;
+      transition: right .3s;
+
+      height: 100%;
+      width: 45%;
+
+      &.active{
+        right: 0;
+      }
+
+      .hide-chat{
+        position: absolute;
+        bottom: 40px;
+        left: -35px;
+
+        display: block;
+        height: 35px;
+        line-height: 36px;
+        width: 35px;
+
+        background-color: #18181B;
+        border-top: 1px solid #42E4E7;
+        border-left: 1px solid #42E4E7;
+        border-bottom: 1px solid #42E4E7;
+
+        text-align: center;
+
+        i{
+          color: $colorPrimary;
+          font-size: 20px;
+        }
+      }
+    }
   }
 </style>
