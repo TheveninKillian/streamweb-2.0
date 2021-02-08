@@ -1,12 +1,14 @@
 <script>
 import EmbedTwitch from './components/EmbedTwitch'
 import Social from './components/Social'
+import FeedTwitter from './components/FeedTwitter'
 
 export default {
   name: 'App',
   components: {
     EmbedTwitch,
-    Social
+    Social,
+    FeedTwitter
   },
   data(){
     return{
@@ -43,6 +45,8 @@ export default {
 
 <template>
   <div :class="{overlay: isActive === true}" @click="revealBtnSocial" v-if="sizeWidth < 1024"></div>
+
+  <FeedTwitter v-if="sizeWidth >= 1024"/>
 
   <video autoplay loop id="bgvid" v-if="sizeWidth >= 1024">
     <source src="./assets/video.webm" type="video/webm">
@@ -227,6 +231,10 @@ export default {
           font-size: 30px;
           font-weight: bold;
         }
+      }
+
+      &__btn-social i{
+        font-size: 25px;
       }
     }
 
