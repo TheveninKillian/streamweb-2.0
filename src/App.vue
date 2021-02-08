@@ -1,10 +1,12 @@
 <script>
 import EmbedTwitch from './components/EmbedTwitch'
+import Social from './components/Social'
 
 export default {
   name: 'App',
   components: {
-    EmbedTwitch
+    EmbedTwitch,
+    Social
   },
   data(){
     return{
@@ -31,8 +33,6 @@ export default {
         window.innerWidth ||
         document.documentElement.clientWidth ||
         document.body.clientWidth;
-
-      // console.log(this.sizeWidth)
     }
   },
   beforeUnmount(){
@@ -57,31 +57,19 @@ export default {
     <div class="header__btn" @click="revealBtnSocial" v-if="sizeWidth < 1024">
       <i class="las la-ellipsis-h"></i>
     </div>
+
+    <div class="header__btn-social" v-if="sizeWidth >= 1024">
+      <Social />
+    </div>
   </header>
   
   <nav class="btn-social" :class="{active: isActive}" v-if="sizeWidth < 1024">
-    <div class="btn-social__twitch">
-      <a href="http://www.twitch.tv/mastersnakou"><i class="lab la-twitch"></i></a>
-    </div>
-
-    <div class="btn-social__twitter">
-      <a href="https://twitter.com/MasterSnakou"><i class="lab la-twitter"></i></a>
-    </div>
-
-    <div class="btn-social__facebook">
-      <a href="https://www.facebook.com/MasterSnakou"><i class="lab la-facebook-f"></i></a>
-    </div>
-
-    <div class="btn-social__youtube">
-      <a href="https://www.youtube.com/user/MasterSnakou"><i class="lab la-youtube"></i></a>
-    </div>
-
-    <div class="btn-social__instagram">
-      <a href="https://www.instagram.com/MasterSnakou"><i class="lab la-instagram"></i></a>
-    </div>
+    <Social />
   </nav>
 
   <EmbedTwitch />
+
+  <footer>Développé par <a href="https://github.com/TheveninKillian">@Killian Thevenin</a></footer>
 </template>
 
 <style lang="scss">
@@ -103,6 +91,8 @@ export default {
     position: fixed;
     left: -50%;
 
+    display: none;
+
     min-width: 100%;
     height: 100%;
 
@@ -112,13 +102,18 @@ export default {
   .header{
     position: relative;
     display: flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: center;
     height: 70px;
 
     color: #fff;
 
     &__title{
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -146,6 +141,27 @@ export default {
 
       i{
         font-size: 25px;
+      }
+    }
+
+    &__btn-social{
+      position: relative;
+
+      display: flex;
+      margin-right: 20px;
+
+      div{
+        margin: 0 5px;
+      }
+
+      i{
+        color: #fff;
+        transition: color .3s;
+        font-size: 20px;
+
+        &:hover{
+          color: $colorPrimary;
+        }
       }
     }
   }
@@ -185,9 +201,48 @@ export default {
     }
   }
 
+  footer{
+    display: none;
+  }
+
   @media screen and (orientation: landscape){
     video{
       left: 0;
+    }
+  }
+
+  @media screen and (min-width: 1024px) and (orientation: landscape){
+    video{
+      display: block;
+    }
+
+    .header{
+      &__title{
+        flex-direction: row;
+        margin-top: 0px;
+
+        h1{
+          margin-left: 5px;
+
+          font-size: 30px;
+          font-weight: bold;
+        }
+      }
+    }
+
+    footer{
+      position: fixed;
+      bottom: 5px;
+      left: 50%;
+      transform: translateX(-50%);
+
+      display: block;
+
+      color: #fff;
+
+      a{
+        color: $colorPrimary;
+      }
     }
   }
 </style>
