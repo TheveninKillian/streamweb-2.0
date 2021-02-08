@@ -82,6 +82,20 @@
       padding: 0;
       margin: 0;
     }
+
+    @media screen and (min-width: 1024px) {
+      body {
+        padding-left: calc(50vw - 670px);
+        padding-right: calc(50vw - 670px);
+      }
+    }
+
+    @media screen and (min-width: 2560px) and (orientation: landscape) {
+      body {
+        padding-left: calc(40vw - 670px);
+        padding-right: calc(40vw - 670px);
+      }
+    }
   </style>
   <script src="https://player.twitch.tv/js/embed/v1.js"></script>
 </head>
