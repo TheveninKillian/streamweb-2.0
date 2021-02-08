@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="wrapper-player">
       <!-- Ne pas oublier de changer le parent avant le deploiement : streamweb.netlify.app -->
-      <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=localhost" allowfullscreen="true" :class="{active: activeChat}"></iframe>
+      <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true" :class="{active: activeChat}"></iframe>
 
       <div class="twitch-details" v-if="live" :class="{active: activeDetails}">
         <div class="twitch-details__logo">
@@ -27,7 +27,7 @@
         <i class="las la-chevron-right" v-if="activeChat"></i>
       </div>
 
-      <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=localhost&darkpopout"></iframe>
+      <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=streamweb.netlify.app&darkpopout"></iframe>
     </div>
   </div>
 </template>
@@ -39,9 +39,9 @@
       return{
         client_id: 'hjupgzhnkwgkiozsesy4fxby3337t5',
         // Ne pas oublie de modifier redirect_uri avant le deploiement https://streamweb.netlify.app : http://localhost:8080
-        redirect_uri: 'http://localhost:8080',
+        redirect_uri: 'https://streamweb.netlify.app',
         scopes: ['user:read:email'],
-        channel: 'avamind',
+        channel: 'mastersnakou',
         live: false,
         initLive: null,
         twitch_last_follow: null,
@@ -265,7 +265,7 @@
     height: 85px;
     width: 100%;
 
-    background-color: $colorBlackTwo;
+    background-color: #464649;
     color: #fff;
 
     &.active{
@@ -470,16 +470,16 @@
       margin-top: 5vh;
 
       &-player{
-        height: 60vh;
+        height: 55vh;
       }
 
       &-chat{
-        height: calc(60vh + 90px);
+        height: calc(55vh + 90px);
       }
     }
   }
 
-  @media screen and (min-width: 2560px) and (orientation: landscape){
+  @media screen and (min-width: 1920px) and (orientation: landscape){
     .wrapper{
       margin-top: 10vh;
     }
