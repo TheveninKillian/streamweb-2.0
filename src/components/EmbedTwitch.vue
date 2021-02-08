@@ -1,30 +1,34 @@
 <template>
-  <!-- Ne pas oublier de changer le parent avant le deploiement : streamweb.netlify.app -->
-  <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app" allowfullscreen="true" :class="{active: activeChat}"></iframe>
+  <div class="wrapper">
+    <div class="wrapper-player">
+      <!-- Ne pas oublier de changer le parent avant le deploiement : streamweb.netlify.app -->
+      <iframe loading="lazy" class="player" src="https://player.twitch.tv/?channel=mastersnakou&parent=localhost" allowfullscreen="true" :class="{active: activeChat}"></iframe>
 
-  <div class="twitch-details" v-if="live" :class="{active: activeDetails}">
-    <div class="twitch-details__logo">
-      <img :src="twitch.gameImg" alt="logo-game">
+      <div class="twitch-details" v-if="live" :class="{active: activeDetails}">
+        <div class="twitch-details__logo">
+          <img :src="twitch.gameImg" alt="logo-game">
+        </div>
+
+        <div class="twitch-details__title">
+          <p>{{ twitch.title }}</p>
+          <p>{{ twitch.game }}</p>
+        </div>
+
+        <div class="hide-details" @click="revealDetails">
+          <i class="las la-chevron-down" v-if="!activeDetails"></i>
+          <i class="las la-chevron-up" v-if="activeDetails"></i>
+        </div>
+      </div>
     </div>
 
-    <div class="twitch-details__title">
-      <p>{{ twitch.title }}</p>
-      <p>{{ twitch.game }}</p>
-    </div>
+    <div class="wrapper-chat" :class="{active: activeChat, resize: activeDetails}">
+      <div class="hide-chat" @click="revealChat">
+        <i class="las la-chevron-left" v-if="!activeChat"></i>
+        <i class="las la-chevron-right" v-if="activeChat"></i>
+      </div>
 
-    <div class="hide-details" @click="revealDetails">
-      <i class="las la-chevron-down" v-if="!activeDetails"></i>
-      <i class="las la-chevron-up" v-if="activeDetails"></i>
+      <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=localhost&darkpopout"></iframe>
     </div>
-  </div>
-
-  <div class="wrapper-chat" :class="{active: activeChat, resize: activeDetails}">
-    <div class="hide-chat" @click="revealChat">
-      <i class="las la-chevron-left" v-if="!activeChat"></i>
-      <i class="las la-chevron-right" v-if="activeChat"></i>
-    </div>
-
-    <iframe loading="lazy" class="chat" src="https://www.twitch.tv/embed/mastersnakou/chat?parent=streamweb.netlify.app&darkpopout"></iframe>
   </div>
 </template>
 
@@ -35,14 +39,15 @@
       return{
         client_id: 'hjupgzhnkwgkiozsesy4fxby3337t5',
         // Ne pas oublie de modifier redirect_uri avant le deploiement https://streamweb.netlify.app : http://localhost:8080
-        redirect_uri: 'https://streamweb.netlify.app',
+        redirect_uri: 'http://localhost:8080',
         scopes: ['user:read:email'],
-        channel: 'mastersnakou',
+        channel: 'avamind',
         live: false,
         initLive: null,
         twitch_last_follow: null,
         activeDetails: false,
         activeChat: false,
+        sizeHeight: 0,
         helpers: {
           encodeQueryString: (params) => {
             const queryString = new URLSearchParams();
@@ -274,6 +279,8 @@
       img{
         width: 60px;
         height: 75px;
+
+        border-radius: 10px;
       }
     }
 
@@ -294,7 +301,7 @@
     .hide-details{
       position: absolute;
       bottom: -35px;
-      right: 70px;
+      right: 60px;
 
       height: 35px;
       line-height: 36px;
@@ -303,6 +310,8 @@
       background-color: $colorBlackTwo;
 
       text-align: center;
+
+      cursor: pointer;
 
       i{
         color: $colorPrimary;
@@ -326,6 +335,7 @@
 
     .hide-chat{
       display: none;
+      cursor: pointer;
     }
 
     .chat{
@@ -336,7 +346,7 @@
     }
   }
 
-  @media screen and (max-width: 1024px) and (orientation: landscape){
+  @media screen and (max-width: 1023px) and (orientation: landscape){
     .player{
       top: 0;
 
@@ -384,6 +394,94 @@
           font-size: 20px;
         }
       }
+    }
+  }
+
+  @media screen and (min-width: 1024px) and (orientation: landscape){
+    .wrapper{
+      display: flex;
+      justify-content: space-around;
+      margin-top: 10vh;
+
+      &-player{
+        height: 50vh;
+        width: 65%;
+
+        transition: width .3s;
+
+        border: 1px solid $colorPrimary;
+        border-radius: 10px;
+      }
+
+      &-chat{
+        position: relative;
+        top: 0;
+        z-index: 0;
+
+        height: calc(50vh + 90px);
+        width: 25%;
+
+        border: 1px solid $colorPrimary;
+        border-radius: 10px;
+
+        iframe{
+          border-radius: 10px;
+        }
+      }
+    }
+
+    .player{
+      position: relative;
+      top: 0;
+      
+      height: 100%;
+      width: 100%;
+
+      border-radius: 10px;
+    }
+
+    .twitch-details{
+      position: relative;
+      top: 0;
+      z-index: 0;
+
+      width: 100%;
+
+      border-radius: 10px;
+
+      &__title{
+        p:nth-child(1){
+          font-size: 18px;
+        }
+
+        p:nth-child(2){
+          font-size: 14px;
+        }
+      }
+
+      .hide-details{
+        display: none
+      }
+    }
+  }
+
+  @media screen and (min-width: 1440px) and (orientation: landscape){
+    .wrapper{
+      margin-top: 5vh;
+
+      &-player{
+        height: 60vh;
+      }
+
+      &-chat{
+        height: calc(60vh + 90px);
+      }
+    }
+  }
+
+  @media screen and (min-width: 2560px) and (orientation: landscape){
+    .wrapper{
+      margin-top: 10vh;
     }
   }
 </style>
