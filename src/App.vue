@@ -52,13 +52,13 @@ export default {
 
   <FeedTwitter v-if="sizeWidth >= 1024" />
 
-  <video autoplay loop id="bgvid" v-if="sizeWidth >= 1024">
+  <video autoplay loop id="bgvid" v-if="sizeWidth >= 1024" loading="lazy">
     <source src="./assets/video.webm" type="video/webm" />
   </video>
 
   <header class="header">
     <div class="header__title">
-      <img src="./assets/logo.png" alt="logo de mastersnakou" />
+      <img src="./assets/logo.png" alt="logo de mastersnakou" loading="lazy" />
       <h1>Mastersnakou</h1>
     </div>
 
