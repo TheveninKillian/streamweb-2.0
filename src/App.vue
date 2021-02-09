@@ -138,7 +138,12 @@ video {
 
     h1 {
       position: relative;
+      padding-right: 3px;
       color: $colorPrimary;
+
+      background: -webkit-linear-gradient(#1d6a6b, $colorPrimary);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
 
       text-transform: uppercase;
       font-style: italic;
