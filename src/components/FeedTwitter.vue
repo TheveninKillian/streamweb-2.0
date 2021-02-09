@@ -70,6 +70,7 @@
 
       width: 50px;
       height: 50px;
+      line-height: 50px;
 
       background-color: $colorTwitter;
       border-radius: 0 10px 10px 0;
