@@ -5,7 +5,7 @@
       <iframe
         loading="lazy"
         class="player"
-        src="https://player.twitch.tv/?channel=mastersnakou&parent=localhost"
+        src="https://player.twitch.tv/?channel=mastersnakou&parent=streamweb.netlify.app"
         allowfullscreen="true"
         :class="{ active: activeChat }"
       ></iframe>
@@ -43,7 +43,7 @@
       <iframe
         loading="lazy"
         class="chat"
-        src="https://www.twitch.tv/embed/mastersnakou/chat?parent=localhost&darkpopout"
+        src="https://www.twitch.tv/embed/mastersnakou/chat?parent=streamweb.netlify.app&darkpopout"
       ></iframe>
     </div>
   </div>
@@ -56,7 +56,7 @@ export default {
     return {
       client_id: "hjupgzhnkwgkiozsesy4fxby3337t5",
       // Ne pas oublie de modifier redirect_uri avant le deploiement https://streamweb.netlify.app : http://localhost:8080
-      redirect_uri: "http://localhost:8080",
+      redirect_uri: "https://streamweb.netlify.app",
       token: null,
       scopes: ["user:read:email"],
       channel: "mastersnakou",
